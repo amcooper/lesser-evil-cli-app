@@ -2,4 +2,4 @@
 
 require_relative '../config/environment'
 
-puts 'Testing app dependencies. Done.'
+LesserEvil::CommandLineInterface.new.call
