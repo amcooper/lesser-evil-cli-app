@@ -22,7 +22,7 @@ class LesserEvil::CommandLineInterface
     very_angry = input_validation(['angry','very angry']) == 'very angry'
     tweets = LesserEvil::TweetController.new.get_tweets(candidate,very_angry)
     tweets.each do |tweet|
-    	puts tweet[:text]
+    	puts tweet["text"]
     end
 	end
 
