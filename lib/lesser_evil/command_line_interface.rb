@@ -20,12 +20,10 @@ class LesserEvil::CommandLineInterface
     print "Angry or very angry? "
     # very_angry = input_validation(['angry','very angry']) == 'very angry'
     very_angry = false # debug
+    start = Time.now
     tweets = LesserEvil::TweetController.new.get_tweets(candidate,very_angry)
-    tweets.each do |tweet_slim|
-    	puts tweet_slim.text.white
-    	puts "@#{tweet_slim.author} #{tweet_slim.timestamp}".blue
-    	puts "-------------------\n".red
-    end
+    tweets.each {|tweet_slim| tweet_slim.prettyprint }
+    puts "\n#{Time.now - start}"
 	end
 
 end

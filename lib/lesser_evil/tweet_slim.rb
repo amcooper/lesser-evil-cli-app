@@ -7,5 +7,11 @@ class TweetSlim
 		@author = author
 		@timestamp = timestamp
 	end
-	
+
+	def prettyprint
+		  puts @text.white
+    	puts "@#{@author} #{@timestamp}".blue
+    	puts "-------------------\n".red
+  end
+
 end
