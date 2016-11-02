@@ -15,14 +15,14 @@ class LesserEvil::CommandLineInterface
 	def call
     puts "LESSER EVIL\n"
     print "Trump or Clinton? Choose a candidate: "
-    # candidate = input_validation(['trump','clinton'])
-    candidate = 'trump' # debug
+    candidate = input_validation(['trump','clinton'])
+    # candidate = 'trump' # debug
     print "Angry or very angry? "
-    # very_angry = input_validation(['angry','very angry']) == 'very angry'
-    very_angry = false # debug
+    very_angry = input_validation(['angry','very angry']) == 'very angry'
+    # very_angry = false # debug
     start = Time.now
     tweets = LesserEvil::TweetController.new.get_tweets(candidate,very_angry)
-    tweets.each {|tweet_slim| tweet_slim.prettyprint }
+    # tweets.each {|tweet_slim| tweet_slim.prettyprint }
     puts "\n#{Time.now - start}"
 	end
 

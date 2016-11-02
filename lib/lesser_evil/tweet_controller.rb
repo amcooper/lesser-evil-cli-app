@@ -9,7 +9,8 @@ class LesserEvil::TweetController
 		trump: "'Donald+Trump'+-Jr+%23MAGA+OR+%23MakeAmericaGreatAgain+lang:en"
 	}
 	LesserEvil::TWEET_QTY = 21
-	LesserEvil::BATCH_QTY = 100
+	LesserEvil::BATCH_QTY = 30
+	LesserEvil::SEPARATOR = 21
 
 	def initialize
 		@result = []
@@ -30,18 +31,26 @@ class LesserEvil::TweetController
 
 	def get_tweets(candidate,very_angry)
 		max_id = nil
+		separator_ticker = 0
 		while result.length < LesserEvil::TWEET_QTY
 			batch = get_batch(candidate,very_angry,max_id)
 			max_id = batch.last["id"] - 1
 			batch.each do |status|
-				print ': '
+				if separator_ticker < LesserEvil::SEPARATOR
+					print '-'.red
+					separator_ticker += 1
+				end
 				sentiment_analysis = get_sentiment(status["text"])
 				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-				if sentiment_analysis["sentiment"] == "Negative" && result.length < LesserEvil::TWEET_QTY
-					@result << TweetSlim.new(status["text"],status["user"]["screen_name"],status["created_at"])
+				if sentiment_analysis["sentiment"] == "Negative" && @result.length < LesserEvil::TWEET_QTY
+					(LesserEvil::SEPARATOR - separator_ticker).times {|i| print '-'.red}
+					tweet_slim = TweetSlim.new(status["text"],status["user"]["screen_name"],status["created_at"])
+					tweet_slim.prettyprint
+					separator_ticker = 0
+					@result << tweet_slim
 				end        
 			end
-			print "#{result.length}, " #debug
+			# print "#{result.length}, " #debug
 		end
 		puts
 		@result

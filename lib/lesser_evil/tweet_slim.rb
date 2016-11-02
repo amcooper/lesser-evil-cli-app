@@ -9,9 +9,10 @@ class TweetSlim
 	end
 
 	def prettyprint
+		  puts
 		  puts @text.white
     	puts "@#{@author} #{@timestamp}".blue
-    	puts "-------------------\n".red
+    	# puts "-------------------".red
   end
 
 end
