@@ -4,8 +4,8 @@ class TweetSlim
 
 	def initialize(status)
 		@text = status["text"]
-		@author = status["author"]
-		@timestamp = status["timestamp"]
+		@author = status["user"]["screen_name"]
+		@timestamp = status["created_at"]
 		@id = status["id"]
 	end
 
@@ -13,6 +13,7 @@ class TweetSlim
 		  puts
 		  puts @text.white
     	puts "@#{@author} #{@timestamp}".blue
+    	# binding.pry
     	# puts "-------------------".red
   end
 

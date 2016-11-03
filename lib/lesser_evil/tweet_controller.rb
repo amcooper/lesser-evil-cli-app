@@ -38,6 +38,12 @@ class LesserEvil::TweetController
 		end
 	end
 
+	def fast_print(tweet_slim)
+		(LesserEvil::SEPARATOR - @separator_ticker).times {|i| print '-'.red}
+		tweet_slim.prettyprint
+		@separator_ticker = 0
+	end
+
 	def get_print_tweets(options)
 		max_id = nil
 		separator_ticker = 0
@@ -52,12 +58,15 @@ class LesserEvil::TweetController
 				# end
 				sentiment_analysis = get_sentiment(status["text"])
 				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-				if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY
-					(LesserEvil::SEPARATOR - separator_ticker).times {|i| print '-'.red}
+				if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY && status["retweet_count"] < 5
 					tweet_slim = TweetSlim.new(status)
-					tweet_slim.prettyprint
-					separator_ticker = 0
+					fast_print(tweet_slim) if options[:fast_print]
+					# binding.pry
+					# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug
 					@result << tweet_slim
+					# (LesserEvil::SEPARATOR - @separator_ticker).times {|i| print '-'.red}
+					# tweet_slim.prettyprint
+					# separator_ticker = 0
 				end        
 			end
 			# print "#{result.length}, " #debug
