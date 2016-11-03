@@ -2,11 +2,11 @@ class TweetSlim
 
 	attr_accessor :text, :author, :timestamp, :id
 
-	def initialize(text,author,timestamp,id)
-		@text = text
-		@author = author
-		@timestamp = timestamp
-		@id = id
+	def initialize(status)
+		@text = status["text"]
+		@author = status["author"]
+		@timestamp = status["timestamp"]
+		@id = status["id"]
 	end
 
 	def prettyprint

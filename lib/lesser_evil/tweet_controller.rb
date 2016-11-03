@@ -1,8 +1,9 @@
 class LesserEvil::TweetController
 
-	attr_accessor :result
+	attr_accessor :result, :separator_ticker
 
-	LesserEvil::BASE_URL = "https://api.twitter.com/1.1/search/tweets.json"
+	LesserEvil::BASE_TWITTER_URL = "https://api.twitter.com/1.1/search/tweets.json"
+	LesserEvil::SENTIMENT_URL = "http://sentiment.vivekn.com/api/text/"
 	LesserEvil::APP_AUTH = "Bearer AAAAAAAAAAAAAAAAAAAAAPztxgAAAAAAqq0aDjAjGtwkizqhV8wwLdKQB9I%3DY1wGPKUWSz7LV94M2VHBwHle7I3kW46WRmCEgIaZZS6GNTCqwn"
 	LesserEvil::SEARCH_TERMS = {
 		clinton: "'Hillary+Clinton'+%23ImWithHer+lang:en",
@@ -14,37 +15,46 @@ class LesserEvil::TweetController
 
 	def initialize
 		@result = []
+		@separator_ticker = 0
 	end
 
-	def get_batch(candidate,very_angry,max_id = nil)
-		response = HTTParty.get("#{LesserEvil::BASE_URL}?q=#{LesserEvil::SEARCH_TERMS[candidate.to_sym]}&count=#{LesserEvil::BATCH_QTY}&max_id=#{max_id}", headers: {"Authorization" => LesserEvil::APP_AUTH})
+	def get_batch(candidate,is_intense,max_id = nil)
+		response = HTTParty.get("#{LesserEvil::BASE_TWITTER_URL}?q=#{LesserEvil::SEARCH_TERMS[candidate.to_sym]}&count=#{LesserEvil::BATCH_QTY}&max_id=#{max_id}", headers: {"Authorization" => LesserEvil::APP_AUTH})
 		# binding.pry
 		response["statuses"]
 	end
 
 	def get_sentiment(text)
 		options = { body: { txt: text }}
-		response = HTTParty.post("http://sentiment.vivekn.com/api/text/", options)
+		response = HTTParty.post(LesserEvil::SENTIMENT_URL, options)
 		# binding.pry
 		response["result"]
 	end
 
-	def get_print_tweets(candidate,very_angry,vibe)
+	def print_separator
+		if @separator_ticker < LesserEvil::SEPARATOR
+			print '-'.red
+			@separator_ticker += 1
+		end
+	end
+
+	def get_print_tweets(options)
 		max_id = nil
 		separator_ticker = 0
 		while result.length < LesserEvil::TWEET_QTY
-			batch = get_batch(candidate,very_angry,max_id)
+			batch = get_batch(options[:candidate],options[:is_intense],max_id)
 			max_id = batch.last["id"] - 1
 			batch.each do |status|
-				if separator_ticker < LesserEvil::SEPARATOR
-					print '-'.red
-					separator_ticker += 1
-				end
+				print_separator if options[:fast_print]
+				# if separator_ticker < LesserEvil::SEPARATOR
+				# 	print '-'.red
+				# 	separator_ticker += 1
+				# end
 				sentiment_analysis = get_sentiment(status["text"])
 				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-				if sentiment_analysis["sentiment"] == vibe && @result.length < LesserEvil::TWEET_QTY
+				if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY
 					(LesserEvil::SEPARATOR - separator_ticker).times {|i| print '-'.red}
-					tweet_slim = TweetSlim.new(status["text"],status["user"]["screen_name"],status["created_at"],status["id"])
+					tweet_slim = TweetSlim.new(status)
 					tweet_slim.prettyprint
 					separator_ticker = 0
 					@result << tweet_slim
