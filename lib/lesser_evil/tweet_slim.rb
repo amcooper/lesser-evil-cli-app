@@ -1,11 +1,12 @@
 class TweetSlim
 
-	attr_accessor :text, :author, :timestamp
+	attr_accessor :text, :author, :timestamp, :id
 
-	def initialize(text,author,timestamp)
+	def initialize(text,author,timestamp,id)
 		@text = text
 		@author = author
 		@timestamp = timestamp
+		@id = id
 	end
 
 	def prettyprint

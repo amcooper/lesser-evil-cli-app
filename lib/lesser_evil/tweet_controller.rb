@@ -29,7 +29,7 @@ class LesserEvil::TweetController
 		response["result"]
 	end
 
-	def get_tweets(candidate,very_angry)
+	def get_print_tweets(candidate,very_angry,vibe)
 		max_id = nil
 		separator_ticker = 0
 		while result.length < LesserEvil::TWEET_QTY
@@ -42,9 +42,9 @@ class LesserEvil::TweetController
 				end
 				sentiment_analysis = get_sentiment(status["text"])
 				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-				if sentiment_analysis["sentiment"] == "Negative" && @result.length < LesserEvil::TWEET_QTY
+				if sentiment_analysis["sentiment"] == vibe && @result.length < LesserEvil::TWEET_QTY
 					(LesserEvil::SEPARATOR - separator_ticker).times {|i| print '-'.red}
-					tweet_slim = TweetSlim.new(status["text"],status["user"]["screen_name"],status["created_at"])
+					tweet_slim = TweetSlim.new(status["text"],status["user"]["screen_name"],status["created_at"],status["id"])
 					tweet_slim.prettyprint
 					separator_ticker = 0
 					@result << tweet_slim

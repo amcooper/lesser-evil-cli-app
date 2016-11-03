@@ -1,0 +1,6 @@
+1. Refactor get_print_tweets to handle flexibility - print fast or just gather data.
+  - Pull print functions out into separate methods
+
+2. Fix long argument strings => hashes
+
+3. Write update method to grab new tweets
