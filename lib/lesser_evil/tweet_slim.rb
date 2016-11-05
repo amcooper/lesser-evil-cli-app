@@ -1,12 +1,20 @@
 class TweetSlim
 
-	attr_accessor :text, :author, :timestamp, :id
+	attr_accessor :text, :author, :timestamp, :id, :candidate
 
-	def initialize(status)
+  @@all = {}
+
+	def initialize(candidate,status)
 		@text = status["text"]
 		@author = status["user"]["screen_name"]
 		@timestamp = status["created_at"]
 		@id = status["id"]
+		@candidate = candidate
+	end
+
+	def save
+		if @@all.empty? || self.id
+		end
 	end
 
 	def prettyprint

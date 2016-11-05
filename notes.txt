@@ -4,3 +4,6 @@
 2. Fix long argument strings => hashes
 
 3. Write update method to grab new tweets
+
+4. status[:retweeted_status][:id] -- ID of original tweet. Would need to be saved in object. More rigorous.
+   status[:retweeted_status][:text] -- Text of original tweet. 

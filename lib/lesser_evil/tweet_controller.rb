@@ -59,7 +59,7 @@ class LesserEvil::TweetController
 				sentiment_analysis = get_sentiment(status["text"])
 				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
 				if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY && status["retweet_count"] < 5
-					tweet_slim = TweetSlim.new(status)
+					tweet_slim = TweetSlim.save(candidate,status)
 					fast_print(tweet_slim) if options[:fast_print]
 					# binding.pry
 					# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug

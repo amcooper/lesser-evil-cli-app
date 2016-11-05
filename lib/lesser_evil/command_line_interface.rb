@@ -51,7 +51,8 @@ class LesserEvil::CommandLineInterface
     tweets = LesserEvil::TweetController.new.get_print_tweets(
     	candidate: candidate, is_intense: very_angry, sentiment: "Negative", fast_print: true)
     # tweets.each {|tweet_slim| tweet_slim.prettyprint }
-    puts "\n#{Time.now - start}" # debug
+    binding.pry # debug
+    puts "\n*** #{Time.now - start}" # debug
 	end
 
 end
