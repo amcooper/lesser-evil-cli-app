@@ -40,7 +40,7 @@ class LesserEvil::CommandLineInterface
   end
 
 	def call
-    intro_display
+    # intro_display
     print "Trump or Clinton? Choose a candidate: "
     candidate = input_validation(['trump','clinton'])
     # candidate = 'trump' # debug

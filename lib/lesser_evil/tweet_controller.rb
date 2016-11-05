@@ -51,23 +51,30 @@ class LesserEvil::TweetController
 			batch = get_batch(options[:candidate],options[:is_intense],max_id)
 			max_id = batch.last["id"] - 1
 			batch.each do |status|
-				print_separator if options[:fast_print]
-				# if separator_ticker < LesserEvil::SEPARATOR
-				# 	print '-'.red
-				# 	separator_ticker += 1
-				# end
-				sentiment_analysis = get_sentiment(status["text"])
-				# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-				if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY && status["retweet_count"] < 5
-					tweet_slim = TweetSlim.save(candidate,status)
-					fast_print(tweet_slim) if options[:fast_print]
-					# binding.pry
-					# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug
-					@result << tweet_slim
-					# (LesserEvil::SEPARATOR - @separator_ticker).times {|i| print '-'.red}
-					# tweet_slim.prettyprint
-					# separator_ticker = 0
-				end        
+				# binding.pry # debug
+				if !status["retweeted_status"] || !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["retweeted_status"]["id"]) || !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["id"]) 
+					print_separator if options[:fast_print]
+					# if separator_ticker < LesserEvil::SEPARATOR
+					# 	print '-'.red
+					# 	separator_ticker += 1
+					# end
+					sentiment_analysis = get_sentiment(status["text"])
+					# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
+					if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY
+						tweet_slim = TweetSlim.new(options[:candidate],status)
+						fast_print(tweet_slim) if options[:fast_print]
+						# binding.pry
+						# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug
+						@result << tweet_slim
+						# (LesserEvil::SEPARATOR - @separator_ticker).times {|i| print '-'.red}
+						# tweet_slim.prettyprint
+						# separator_ticker = 0
+					end
+				else
+					# binding.pry # debug
+				  puts "*** Found a retweet" # debug
+				  puts @result.collect {|t| t.text}
+			  end   
 			end
 			# print "#{result.length}, " #debug
 		end
