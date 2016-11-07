@@ -41,7 +41,7 @@ class LesserEvil::TweetController
 			max_id = batch.last["id"] - 1
 			batch.each do |status|
 				# binding.pry # debug
-				if !status["retweeted_status"] || !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["retweeted_status"]["id"]) || !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["id"]) 
+				if status["retweeted_status"] == nil || (!@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["retweeted_status"]["id"]) && !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["id"])) 
 					print_separator if options[:fast_print]
 					# if separator_ticker < LesserEvil::SEPARATOR
 					# 	print '-'.red
@@ -50,9 +50,10 @@ class LesserEvil::TweetController
 					sentiment_analysis = get_sentiment(status["text"])
 					# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
 					if sentiment_analysis["sentiment"] == options[:sentiment] && @result.length < LesserEvil::TWEET_QTY
+						# puts "#{status["retweeted_status"] == nil} || #{!@result.collect {|t| t.orig_id}.include?(status["id"])} && #{!@result.collect {|t| t.orig_id}.include?(status["retweeted_status"]["id"])}"
 						tweet_slim = TweetSlim.new(options[:candidate],status)
 						fast_print(tweet_slim) if options[:fast_print]
-						# binding.pry
+						# binding.pry # debug
 						# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug
 						@result << tweet_slim
 						# (LesserEvil::SEPARATOR - @separator_ticker).times {|i| print '-'.red}
@@ -62,7 +63,7 @@ class LesserEvil::TweetController
 				else
 					# binding.pry # debug
 				  puts "*** Found a retweet" # debug
-				  puts @result.collect {|t| t.text}
+				  # puts @result.collect {|t| t.text}
 			  end   
 			end
 			# print "#{result.length}, " #debug
