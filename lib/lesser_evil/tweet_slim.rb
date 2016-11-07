@@ -15,7 +15,7 @@ class TweetSlim
 		  puts
 		  puts @text.white
     	puts "@#{@author} #{@timestamp}".blue
-    	puts "#{@id} < #{@orig_id}".blue
+    	puts "#{@id} < #{@orig_id}".black.on_yellow
     	# binding.pry
     	# puts "-------------------".red
   end
