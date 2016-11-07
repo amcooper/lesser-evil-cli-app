@@ -14,6 +14,7 @@ class LesserEvil::CommandLineInterface
 		end
 
 		puts 
+		puts
 
 		File.open("assets/donald.txt", "r") do |file|
 			file.readlines.each do |line|

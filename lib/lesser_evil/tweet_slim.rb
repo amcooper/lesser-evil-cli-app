@@ -11,7 +11,6 @@ class TweetSlim
 		@orig_id = status["retweeted_status"] == nil ? nil : status["retweeted_status"]["id"]
 	end
 
-
 	def prettyprint
 		  puts
 		  puts @text.white

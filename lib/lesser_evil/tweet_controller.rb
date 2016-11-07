@@ -2,17 +2,6 @@ class LesserEvil::TweetController
 
 	attr_accessor :result, :separator_ticker
 
-	LesserEvil::BASE_TWITTER_URL = "https://api.twitter.com/1.1/search/tweets.json"
-	LesserEvil::SENTIMENT_URL = "http://sentiment.vivekn.com/api/text/"
-	LesserEvil::APP_AUTH = "Bearer AAAAAAAAAAAAAAAAAAAAAPztxgAAAAAAqq0aDjAjGtwkizqhV8wwLdKQB9I%3DY1wGPKUWSz7LV94M2VHBwHle7I3kW46WRmCEgIaZZS6GNTCqwn"
-	LesserEvil::SEARCH_TERMS = {
-		clinton: "'Hillary+Clinton'+%23ImWithHer+lang:en",
-		trump: "'Donald+Trump'+-Jr+%23MAGA+OR+%23MakeAmericaGreatAgain+lang:en"
-	}
-	LesserEvil::TWEET_QTY = 21
-	LesserEvil::BATCH_QTY = 30
-	LesserEvil::SEPARATOR = 21
-
 	def initialize
 		@result = []
 		@separator_ticker = 0
