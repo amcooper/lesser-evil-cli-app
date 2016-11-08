@@ -8,8 +8,8 @@ x 2. Fix long argument strings => hashes
 x 4. status[:retweeted_status][:id] -- ID of original tweet. Would need to be saved in object. More rigorous.
 
 x 5. constants.rb
-6. intensity
+x 6. intensity
 7. spinner
-8. Ask colorize what color the terminal is. Go black if it's white or ...
+x 8. Make tweet white on black
 8. new secret
 10. Break out of batch sooner
