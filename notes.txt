@@ -9,7 +9,8 @@ x 4. status[:retweeted_status][:id] -- ID of original tweet. Would need to be sa
 
 x 5. constants.rb
 x 6. intensity
-7. spinner
+x 7. spinner
 x 8. Make tweet white on black
-8. new secret
-10. Break out of batch sooner
+9. Reconfigure args
+10. new secret
+11. Break out of batch sooner

@@ -12,10 +12,10 @@ class TweetSlim
 	end
 
 	def prettyprint
-		  puts
+		  puts "---------------------\n".red
 		  puts @text.white.on_black
     	puts "@#{@author} #{@timestamp}".blue
-    	puts "#{@id} < #{@orig_id}".black.on_yellow
+    	# puts "#{@id} < #{@orig_id}".black.on_yellow
     	# binding.pry
     	# puts "-------------------".red
   end
