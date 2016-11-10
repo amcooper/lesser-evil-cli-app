@@ -11,6 +11,6 @@ x 5. constants.rb
 x 6. intensity
 x 7. spinner
 x 8. Make tweet white on black
-9. Reconfigure args
-10. new secret
-11. Break out of batch sooner
+x 9. Reconfigure args
+x 10. new secret
+x 11. Break out of batch sooner

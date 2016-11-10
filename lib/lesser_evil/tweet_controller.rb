@@ -1,14 +1,20 @@
 class LesserEvil::TweetController
 
-	attr_accessor :result, :separator_ticker
+	attr_accessor :result, :candidate, :is_intense, :sentiment, :fast_print, :tweet_qty, :batch_qty, :separator_ticker
 
-	def initialize
+	def initialize(options)
 		@result = []
-		@separator_ticker = 0
+    @candidate = options[:candidate]
+    @is_intense = options[:is_intense]
+    @sentiment = options[:sentiment] || "Negative"
+    @fast_print = options[:fast_print] == nil ? true : options[:fast_print]
+    @tweet_qty = options[:tweet_qty] || 9
+    @batch_qty = options[:batch_qty] || 30
+		# @separator_ticker = 0
 	end
 
 	def get_batch(candidate,is_intense,max_id = nil)
-		response = HTTParty.get("#{LesserEvil::BASE_TWITTER_URL}?q=#{LesserEvil::SEARCH_TERMS[candidate.to_sym]}&count=#{LesserEvil::BATCH_QTY}&max_id=#{max_id}", headers: {"Authorization" => LesserEvil::APP_AUTH})
+		response = HTTParty.get("#{LesserEvil::BASE_TWITTER_URL}?q=#{LesserEvil::SEARCH_TERMS[candidate.to_sym]}&count=#{@batch_qty}&max_id=#{max_id}", headers: {"Authorization" => LesserEvil::APP_AUTH})
 		# binding.pry
 		response["statuses"]
 	end
@@ -33,16 +39,16 @@ class LesserEvil::TweetController
 		@separator_ticker = 0
 	end
 
-	def get_print_tweets(options)
+	def get_print_tweets
 	  Whirly.configure spinner: "bouncingBar", remove_after_stop: true, stop: "---------------------".red
 	  Whirly.start 
 		max_id = nil
 		separator_ticker = 0
-		while @result.length < LesserEvil::TWEET_QTY
-			batch = get_batch(options[:candidate],options[:is_intense],max_id)
+		while @result.length < @tweet_qty
+			batch = get_batch(@candidate,@is_intense,max_id)
 			max_id = batch.last["id"] - 1
 			index = 0
-			while index < batch.length && @result.length < LesserEvil::TWEET_QTY
+			while index < batch.length && @result.length < @tweet_qty
 				# binding.pry # debug
 				status = batch[index]
 				if status["retweeted_status"] == nil || (!@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["retweeted_status"]["id"]) && !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["id"]))
@@ -53,15 +59,15 @@ class LesserEvil::TweetController
 					# end
 					sentiment_analysis = get_sentiment(status["text"])
 					# puts sentiment_analysis["sentiment"], sentiment_analysis["confidence"] #debug
-					intensity = options[:is_intense] ? 1 : 0
-					if sentiment_analysis["sentiment"] == options[:sentiment] && sentiment_analysis["confidence"].to_f >= 75 * intensity && @result.length < LesserEvil::TWEET_QTY
+					intensity = @is_intense ? 1 : 0
+					if sentiment_analysis["sentiment"] == @sentiment && sentiment_analysis["confidence"].to_f >= 75 * intensity && @result.length < @tweet_qty
 						# print "#{status["retweeted_status"] == nil} || ".black.on_yellow
 						# print "#{!@result.collect {|t| t.orig_id}.include?(status["id"])} && ".black.on_yellow
 						# print "#{!@result.collect {|t| t.orig_id}.include?(status["retweeted_status"]["id"])} ".black.on_yellow if status["retweeted_status"] != nil
 						# print sentiment_analysis["confidence"].black.on_yellow
-						tweet_slim = TweetSlim.new(options[:candidate],status)
+						tweet_slim = TweetSlim.new(@candidate,status)
 						Whirly.stop
-						tweet_slim.prettyprint if options[:fast_print]
+						tweet_slim.prettyprint if @fast_print
 						# binding.pry # debug
 						# puts "*** retweeted: #{status[:retweeted_status][:retweeted]}" #debug
 						@result << tweet_slim
