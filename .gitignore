@@ -1,3 +1,4 @@
 lib/lesser_evil/secret.rb
 .DS_Store
 notes.txt
+lesser-evil-*.gem
