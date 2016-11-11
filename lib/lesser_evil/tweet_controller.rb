@@ -47,10 +47,7 @@ class LesserEvil::TweetController
 			  index += 1 
 			end
 		end
-		# puts
 		Whirly.stop
-		# puts "---------------------".red
-		# puts LesserEvil::SEPARATOR
 		@result
 	end
 

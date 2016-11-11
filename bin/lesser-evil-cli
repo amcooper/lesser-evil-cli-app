@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 
-require_relative '../config/environment'
+require "lesser_evil"
 
 LesserEvil::CommandLineInterface.new.call

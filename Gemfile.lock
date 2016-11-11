@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    lesser-evil (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -23,8 +28,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   colorize
   httparty
+  lesser-evil!
   paint
   pry
   rb-readline

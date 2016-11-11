@@ -6,7 +6,7 @@ class LesserEvil::CommandLineInterface
 	def intro_display
 		20.times { puts }
 
-		File.open("assets/hillary.txt", "r") do |file|
+		File.open(File.join(File.dirname(__FILE__), "/../assets/hillary.txt"), "r") do |file|
 			file.readlines.each do |line|
 				print line.white.on_black
 				sleep 0.05
@@ -16,7 +16,7 @@ class LesserEvil::CommandLineInterface
 		puts "\n\n" 
 		
 
-		File.open("assets/donald.txt", "r") do |file|
+		File.open(File.join(File.dirname(__FILE__), "/../assets/donald.txt"), "r") do |file|
 			file.readlines.each do |line|
 				print line.white.on_black
 				sleep 0.05

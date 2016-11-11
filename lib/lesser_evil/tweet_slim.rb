@@ -12,7 +12,6 @@ class TweetSlim
 	end
 
 	def prettyprint
-		  # puts LesserEvil::SEPARATOR
 		  puts @text.white.on_black
     	puts "@#{@author} #{@timestamp}".blue
 	end
