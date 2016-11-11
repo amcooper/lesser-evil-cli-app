@@ -13,8 +13,8 @@ class LesserEvil::CommandLineInterface
 			end
 		end
 
-		puts 
-		puts
+		puts "\n\n" 
+		
 
 		File.open("assets/donald.txt", "r") do |file|
 			file.readlines.each do |line|
@@ -23,7 +23,7 @@ class LesserEvil::CommandLineInterface
 			end
 		end
 
-		puts
+		puts "\n\n"
 		puts "-----------------------------------".red
 		puts "LESSER EVIL  ••••••••••••••••••••••".red
 		puts
@@ -33,7 +33,7 @@ class LesserEvil::CommandLineInterface
   
   def input_validation(valid_array)
   	input = gets.chomp.downcase
-    while !valid_array.include?(input)
+    while !valid_array.include?(input) do
     	print "\nInvalid input. Try again. "
     	input = gets.chomp.downcase
     end
@@ -41,18 +41,24 @@ class LesserEvil::CommandLineInterface
   end
 
 	def call
-    # intro_display
-    print "Trump or Clinton? Choose a candidate: "
-    candidate = input_validation(['trump','clinton'])
-    # candidate = 'trump' # debug
-    print "Angry or very angry? "
-    very_angry = input_validation(['angry','very angry']) == 'very angry'
-    # very_angry = false # debug
-    start = Time.now # debug
-    tweets = LesserEvil::TweetController.new(candidate: candidate, is_intense: very_angry, sentiment: "Negative", fast_print: true).get_print_tweets
-    # tweets.each {|tweet_slim| tweet_slim.prettyprint }
-    binding.pry # debug
-    puts "\n*** #{Time.now - start}" # debug
+
+    intro_display
+    exit = nil
+
+    while !exit do
+	    print "Trump or Clinton? Choose a candidate: "
+	    candidate = input_validation(['trump','clinton'])
+	    print "Angry or very angry? "
+	    very_angry = input_validation(['angry','very angry']) == 'very angry'
+	    puts "\n\n"
+	    tweets = LesserEvil::TweetController.new(candidate: candidate, is_intense: very_angry, sentiment: "Negative", fast_print: true).get_print_tweets
+	    puts "\n\n"
+	    print "New batch? (yes/no): "
+	    exit = input_validation(['y','yes','n','no']).start_with?('n')
+		end
+
+	  puts "O.K.! Take it easy."
+
 	end
 
 end

@@ -6,5 +6,8 @@ module LesserEvil
 		clinton: "'Hillary+Clinton'+%23ImWithHer+lang:en",
 		trump: "'Donald+Trump'+-Jr+%23MAGA+OR+%23MakeAmericaGreatAgain+lang:en"
 	}
+	DEFAULT_TWEET_QTY = 9
+	DEFAULT_BATCH_QTY = 30
+	SEPARATOR = "---------------------\n".red
 
 end
