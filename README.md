@@ -3,9 +3,9 @@
 
 ## Installation
 Installation is simple. Install the gem on your hard drive
-    gem install lesser-evil
+	gem install lesser-evil
 and then run it with the following command:
-    lesser-evil-cli
+	lesser-evil-cli
 
 ## Contributors guide
 Go ahead and make a pull request!
