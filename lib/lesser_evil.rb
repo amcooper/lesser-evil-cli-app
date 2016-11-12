@@ -1,6 +1,6 @@
 require 'httparty'
-require 'rb-readline'
-require 'pry'
+# require 'rb-readline'
+# require 'pry'
 require 'require_all'
 require 'whirly'
 require 'paint'
