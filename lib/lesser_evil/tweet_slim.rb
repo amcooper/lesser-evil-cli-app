@@ -12,8 +12,8 @@ class TweetSlim
 	end
 
 	def prettyprint
-		  puts @text.white.on_black
-    	puts "@#{@author} #{@timestamp}".blue
+		  puts @text.light_black
+    	puts "@#{@author} #{@timestamp}".light_blue
 	end
 
 end
