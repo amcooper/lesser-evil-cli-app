@@ -33,6 +33,8 @@ class LesserEvil::TweetController
 			index = 0
 			while index < batch.length && @result.length < @tweet_qty
 				status = batch[index]
+
+				# Filter out retweets
 				if status["retweeted_status"] == nil || (!@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["retweeted_status"]["id"]) && !@result.collect {|tweet_slim| tweet_slim.orig_id}.include?(status["id"]))
 					sentiment_analysis = get_sentiment(status["text"])
 					intensity = @is_intense ? 1 : 0
