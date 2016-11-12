@@ -1,5 +1,5 @@
 lib/lesser_evil/secret.rb
 .DS_Store
-*notes.txt*
+notes.txt
 lesser-evil-*.gem
-*spec.md*
+spec.md
